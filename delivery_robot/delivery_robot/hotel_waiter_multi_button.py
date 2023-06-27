@@ -4,6 +4,9 @@ from geometry_msgs.msg import PoseStamped
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 import rclpy
 import tkinter as tk
+from ament_index_python.packages import get_package_share_directory
+import os
+import subprocess
 
 class NavigatorApp:
     def __init__(self):
@@ -13,8 +16,12 @@ class NavigatorApp:
         self.create_button('Table 2',   3.89,    2.65)
         self.create_button('Table 3',   3.85,   -4.12)
         self.create_button('Table 4',  -0.40,   -4.06)
+        self.beer_path = os.path.join(get_package_share_directory('delivery_robot'),'models','beer','model.sdf')
         self.waiter_active_flag=False
+        self.return_from_table=False
         self.set_initial_pose()
+
+
     def create_button(self,text,x,y):
         button = tk.Button(self.tk_button, text= text, command=lambda:self.go_to_pose(x,y))
         button.pack()
@@ -54,7 +61,11 @@ class NavigatorApp:
             goals=[]
             goals.append(table_serving)
             goals.append(counter_return)
+            cmd = ['ros2' , 'run' , 'delivery_robot' , 'sdf_spawner' ,self.beer_path,"beer","-5.29","-3.46" ]
+            process = subprocess.Popen(cmd)
+            process.wait()
             self.navigator.followWaypoints(goals)
+            self.return_from_table=True
         else:
             print("Navigation towards Counter")
             self.navigator.goToPose(counter_return)    
@@ -68,6 +79,13 @@ class NavigatorApp:
         
         else:
             print('Goal Failed')
+
+        if self.return_from_table:
+            cmd = ['gz' , 'model' , '-d' , '-m' ,'beer' ]
+            process = subprocess.Popen(cmd)
+            process.wait()
+            self.return_from_table=False
+
 
     def exiting(self):
         self.tk_button.mainloop()
