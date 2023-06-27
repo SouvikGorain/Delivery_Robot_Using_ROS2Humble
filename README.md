@@ -17,3 +17,11 @@ Creating a Delivery Robot based on TurtleBot3 which is named as hotel_waiter. It
 # Pre Course Requirements
 --> Ubuntu 22.04
 --> ROS2 - Humble
+--> should have SLAM TOOLBOX
+--> should have ROS Nav2 installed
+# Implementing the project using Repository
+i.  If the above mentioned prerequisites are matched then we are assuming that you are having a fully functional ros2 workspace with you.
+ii. Inside your workspace go to src and go to install there , you will find share directory there you should create the project packages as sometimes codes in 1 package need to access others while running so in that case having your project in a shared directory can make your access to these more easier. You may need it while we will be spawning the turtlebot in world environment.
+iii. Launch file contains all your launch codes like hotel_waiter.launch.py etc . 
+iv. These files will launch your turtlebot in the world environment subsequently in Gazebo and Rviz.
+v. Then you need to map 
