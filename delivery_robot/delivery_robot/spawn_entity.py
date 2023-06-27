@@ -19,6 +19,10 @@ def main():
     if len(argv)>3:
         request.initial_pose.position.x = float(argv[2])
         request.initial_pose.position.y = float(argv[3])
+        if (argv[1] == 'beer'):
+            request.initial_pose.position.z=1.5
+    request.xml = open(sdf_path, 'r').read()        
+    
     request.xml = open(sdf_path,'r').read()
 
     node.get_logger().info("Sending service request to '/spawn_identity'")
@@ -37,5 +41,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-     
         
