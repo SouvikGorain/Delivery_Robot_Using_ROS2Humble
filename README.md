@@ -10,7 +10,6 @@ Creating a Delivery Robot based on TurtleBot3 which is named as hotel_waiter. It
 
 (iii) In our main droject whose launch file is named as (hotel_waiter) we are using NAV2 stack and simple GUI Tkinter to create buttons for sending robot to different tables.
 
-# Features
 
 
 
